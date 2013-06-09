@@ -1183,8 +1183,8 @@
     // Make the request, allowing the user to override any Ajax options.
     var xhr = options.xhr = Backbone.ajax(_.extend(params, options));
     model.trigger('request', model, xhr, options);
-    //return promise that will be resolved with model
-    return xhr && xhr.then ? xhr.then(function(){
+    //return promise that will be resolved with model, use `.pipe` for jQuery between 1.7.2 and 1.8
+    return xhr && (xhr.pipe || xhr.then) ? (xhr.pipe || xhr.then)(function(){
       return model;
     }) : xhr;
   };
